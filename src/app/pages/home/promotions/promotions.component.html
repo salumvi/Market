@@ -1,0 +1,23 @@
+ <!--=====================================
+    	Home Promotions
+    	======================================-->  
+
+        <div class="ps-promotions">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div 
+                    *ngFor="let item of promotions"
+                    class="col-md-6 col-12 ">
+                    	<a class="ps-collection" [routerLink]="'productos/'+ item.url">
+                    		<img src="{{urlImagenes}}img/products/{{item.category}}/default/{{ item.img }}" alt="">
+                    	</a>
+                    </div>
+                  
+                </div>
+
+            </div>
+
+        </div><!-- End Home Promotions-->

@@ -11,26 +11,32 @@ export class HeaderPromotionComponent implements OnInit {
   urlImagenes = environment.Path.urlImagenes;
 
 
-  productos: any[] = [];
+
   topBanner: object = null;
+  urlImagen = '';
   preload = false;
-constructor(private ps: ProductsService) { }
+  constructor(private ps: ProductsService) { }
 
-ngOnInit(): void {
-  this.cargarTopBanner();
-}
+  ngOnInit(): void {
+    this.cargarTopBanner();
+  }
 
 
-cargarTopBanner(){
-  this.preload = true;
-  this.ps.getAll().subscribe((res: any) => {
-   const indice = Math.round((Math.random() * res.length));
-   this.topBanner = JSON.parse(res[Object.keys(res)[indice]].top_banner);
-   this.preload = false;
-  },err =>{
-    // no hacemos nada.
-  });
+  cargarTopBanner() {
+    this.preload = true;
 
-}
+    this.ps.productos$.subscribe((productos: any) => {
+      //  const nuProductos = Object.keys(res).length;
+      //  const indice = Math.round((Math.random() * nuProductos ));
+      //  this.topBanner = JSON.parse(res[Object.keys(res)[indice]].top_banner);
+      //  this.urlImagen = res[Object.keys(res)[indice]].category;
+      const indice = Math.round((Math.random() * productos.length));
+      this.topBanner = JSON.parse(productos[indice].top_banner);
+      this.urlImagen = productos[indice].category;
+      this.preload = false;
+    });
+  }
+
+
 
 }

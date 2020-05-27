@@ -14,7 +14,18 @@
       "attribute",
       "app",
       "camelCase"
-    ],
+    ],"one-variable-per-declaration": [true, "ignore-for-loop"],
+    "variable-name":{
+      "options":[
+        "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case",
+      "allow-snake-case",
+      "allow-trailing-underscore",
+      "require-const-for-all-caps",
+      "ban-keywords"
+      ]
+    },
     "component-selector": [
       true,
       "element",

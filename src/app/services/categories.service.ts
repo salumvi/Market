@@ -17,14 +17,20 @@ export class CategoriesService {
 
   constructor(
     private http: HttpClient,
-    private scs: SubCategoriesService) { }
+    private scs: SubCategoriesService) {
+
+      if(this.categoria.length === 0 ) {
+        this.getMenuCategorias();
+      }
+
+     }
 
   getAll() {
     return this.http.get(this.urlApi + 'categorias.json');
   }
 
 
-  getMenuCategorias() {
+  private getMenuCategorias() {
 
     this.getAll().subscribe((res: any) => {
 
@@ -32,7 +38,7 @@ export class CategoriesService {
       for (const key in res) {
         // aqui ya tengo una categoria
         const categoria = res[key];
-        const subCatF: any[] = [];
+
         // array de los tiulos list de cada categoria
         const Arrytitlelist = JSON.parse(categoria.title_list);
 
@@ -42,23 +48,7 @@ export class CategoriesService {
 
           this.scs.getSubCategoriasOfTitleList(title)
             .subscribe((cRes: SubCategoria[]) => {
-//////////////////////// esto es para el menu Futer
-              for (const sc of cRes) {
-                subCatF.push({
-                  nombreS: sc.nombreScategoria,
-                  urlS: sc.url
-                });
-              }
-              const catF = this.menuFoter.find(caF => caF.nombreC === categoria.name);
-              if (catF === undefined) {
-              this.menuFoter.push({
-                nombreC: categoria.name,
-                subCategoria: subCatF
-              });
-            } else {
-              catF.subCategoria.push(subCatF);
-            }
-//////////////////////// esto es para el menu Futer
+
               const arrayTitleList: TitleList[] = [];
 
               const _titleList: TitleList = {
@@ -81,7 +71,7 @@ export class CategoriesService {
               } else {
                 cat.titleList.push(_titleList);
               }
-
+              // aviso del cambio de las categorias, lo hago cada vez que se inserta una 
               this.categorias$.next(this.categoria);
             });
         });
@@ -89,7 +79,9 @@ export class CategoriesService {
     });
   }
 
-getCategoriasParaFuter$() : Observable<Categoria[]> {
+// estamos pendientes del cambio de las categorias
+// lo envio para manejarlas en otro sitio. en este caso en el footer 
+getCategoriasParaFuter$(): Observable<Categoria[]> {
   return this.categorias$.asObservable();
 }
 

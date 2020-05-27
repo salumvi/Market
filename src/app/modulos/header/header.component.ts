@@ -18,11 +18,13 @@ export class HeaderComponent implements OnInit {
     private scs: SubCategoriesService) { }
 
   ngOnInit(): void {
-    this.cs.getMenuCategorias();
-    this.categoria = this.cs.categoria;
+    this.cs.getCategoriasParaFuter$().subscribe((res: any)=>{
+      this.categoria = res;
+
+    });
   }
 
-
+/*
   getMenuCategorias() {
 
     this.cs.getAll().subscribe((res: any) => {
@@ -67,7 +69,7 @@ export class HeaderComponent implements OnInit {
       }
     });
   }
-
+*/
 
 
 }
